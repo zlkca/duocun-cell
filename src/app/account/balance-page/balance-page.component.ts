@@ -19,8 +19,8 @@ import { ITransaction } from '../../transaction/transaction.model';
 export class BalancePageComponent implements OnInit {
   displayedColumns: string[] = ['created', 'paid', 'received', 'balance'];
   dataSource: MatTableDataSource<IMerchantPaymentData>;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ViewChild(MatSort) sort: MatSort;
 
   onDestroy$ = new Subject();
 
@@ -37,7 +37,7 @@ export class BalancePageComponent implements OnInit {
 
   ngOnInit() {
     const self = this;
-    self.accountSvc.getCurrentUser().pipe(takeUntil(this.onDestroy$)).subscribe(account => {
+    self.accountSvc.getCurrent().pipe(takeUntil(this.onDestroy$)).subscribe(account => {
       const roles = account.roles;
       if (roles && roles.length > 0 && roles.indexOf(Role.MERCHANT_ADMIN) !== -1
         && account.merchants && account.merchants.length > 0
@@ -158,7 +158,7 @@ export class BalancePageComponent implements OnInit {
       });
 
       this.dataSource = new MatTableDataSource(rows);
-      this.dataSource.sort = this.sort;
+      // this.dataSource.sort = this.sort;
     });
   }
 }

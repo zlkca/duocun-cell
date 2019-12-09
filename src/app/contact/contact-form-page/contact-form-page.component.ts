@@ -21,7 +21,6 @@ import { CommandActions } from '../../shared/command.actions';
 import * as Cookies from 'js-cookie';
 import { IDeliveryTimeAction } from '../../delivery/delivery-time.reducer';
 import { DeliveryTimeActions } from '../../delivery/delivery-time.actions';
-import { CodegenComponentFactoryResolver } from '../../../../node_modules/@angular/core/src/linker/component_factory_resolver';
 
 @Component({
   selector: 'app-contact-form-page',
@@ -124,11 +123,11 @@ export class ContactFormPageComponent implements OnInit, OnDestroy {
   onAddressInputFocus(e?: any) {
     const self = this;
     this.options = [];
-    if (this.account && this.account.id) {
-      this.locationSvc.getHistoryLocations(this.account.id).pipe(takeUntil(this.onDestroy$)).subscribe(a => {
-        self.options = a;
-      });
-    }
+    // if (this.account && this.account.id) {
+    //   this.locationSvc.getHistoryLocations(this.account.id).pipe(takeUntil(this.onDestroy$)).subscribe(a => {
+    //     self.options = a;
+    //   });
+    // }
   }
 
   onSelectPlace(e) {
@@ -206,8 +205,8 @@ export class ContactFormPageComponent implements OnInit, OnDestroy {
 
   getContact() {
     const v = this.form.value;
-    if (this.contact.id) {
-      v.id = this.contact.id;
+    if (this.contact._id) {
+      v.id = this.contact._id;
       v.created = this.contact.created;
     } else {
       v.created = new Date();
@@ -242,19 +241,19 @@ export class ContactFormPageComponent implements OnInit, OnDestroy {
     //   });
     // });
 
-    if (contact.id) {
-      this.contactSvc.replace(contact).subscribe(x => {
-        self.router.navigate(['contact/list']);
-      }, err => {
-        self.router.navigate(['contact/list']);
-      });
-    } else {
-      this.contactSvc.save(contact).subscribe(x => {
-        self.router.navigate(['contact/list']);
-      }, err => {
-        self.router.navigate(['contact/list']);
-      });
-    }
+    // if (contact._id) {
+    //   this.contactSvc.replace(contact).subscribe(x => {
+    //     self.router.navigate(['contact/list']);
+    //   }, err => {
+    //     self.router.navigate(['contact/list']);
+    //   });
+    // } else {
+    //   this.contactSvc.save(contact).subscribe(x => {
+    //     self.router.navigate(['contact/list']);
+    //   }, err => {
+    //     self.router.navigate(['contact/list']);
+    //   });
+    // }
   }
 
   sendVerify() {

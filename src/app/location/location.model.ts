@@ -19,10 +19,10 @@ export interface GeoPoint  {
 // }
 
 export interface ILocation {
-  placeId: string;
+  placeId?: string;
   city?: string;
-  lat: number;
-  lng: number;
+  lat?: number;
+  lng?: number;
   postalCode?: string;
   province?: string;
   streetName?: string;

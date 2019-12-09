@@ -1584,6 +1584,78 @@
           <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="FirstName" datatype="html">
+        <source>FirstName</source>
+        <target>名</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/contact/contact-list-page/contact-list-page.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="LastName" datatype="html">
+        <source>LastName</source>
+        <target>姓</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/contact/contact-list-page/contact-list-page.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="OriginalCarrier" datatype="html">
+        <source>OriginalCarrier</source>
+        <target>原运营商</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/contact/contact-list-page/contact-list-page.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="CurrentBalance" datatype="html">
+        <source>Current Balance</source>
+        <target>当前余额</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/account/account-page.component.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="TotalPayable" datatype="html">
+        <source>TotalPayable</source>
+        <target>总共应付</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/account/account-page.component.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="Notes" datatype="html">
+        <source>Notes</source>
+        <target>备注</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/order/order-detail/order-detail.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="MobilePlans" datatype="html">
+        <source>Mobile Plans</source>
+        <target>手机计划</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/order/order-detail/order-detail.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="MobilePlanDetail" datatype="html">
+        <source>Mobile Plan Detail</source>
+        <target>手机计划详情</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/order/order-detail/order-detail.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ApplicationForm" datatype="html">
+        <source>Application Form</source>
+        <target>申请表</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/order/order-detail/order-detail.component.html</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

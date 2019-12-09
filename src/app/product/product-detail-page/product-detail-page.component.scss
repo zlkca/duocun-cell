@@ -1,0 +1,42 @@
+
+$font-color: #00549a;
+.product-content{
+  margin-top: 70px;
+  padding: 24px;
+
+  .feature-list{
+    padding: 18px;
+  }
+}
+
+.dollar, .per-month{
+  top: -1.05em;
+  font-size: 18px;
+  color:$font-color;
+  letter-spacing: 0;
+  line-height: 0;
+  position: relative;
+  top: -19px;
+  vertical-align: baseline;
+}
+
+.price{
+  font-size: 47px;
+  color:$font-color;
+  display: inline;
+  white-space: nowrap;
+  line-height: 1;
+  letter-spacing: -1px;
+  font-family: 'Open Sans';
+  // font-weight: 700;
+  padding-left:5px;
+  padding-right: 5px;
+}
+
+.op-row{
+  margin-top: 15px;
+  .btn{
+    float:right;
+    margin-right:30px;
+  }
+}

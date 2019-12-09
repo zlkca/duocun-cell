@@ -67,18 +67,10 @@ export class LoginFormComponent implements OnInit, OnDestroy {
         if (data) {
           self.authSvc.setUserId(data.userId);
           self.authSvc.setAccessToken(data.id);
-          self.accountSvc.getCurrentUser().subscribe((account: Account) => {
+          self.accountSvc.getCurrent().subscribe((account: Account) => {
             if (account) {
               self.rx.dispatch({ type: AccountActions.UPDATE, payload: account }); // update header, footer icons
-              if (account.type === 'super') {
-                this.router.navigate(['admin']);
-              } else if (account.type === 'worker') {
-                this.router.navigate(['order/list-worker']);
-              } else if (account.type === 'restaurant') {
-                this.router.navigate(['order/list-restaurant']);
-              } else if (account.type === 'user') {
-                this.router.navigate(['main/home']);
-              }
+              this.router.navigate(['product/list']);
             } else {
               this.errMsg = 'Wrong username or password';
               // this.router.navigate(['account/login']);

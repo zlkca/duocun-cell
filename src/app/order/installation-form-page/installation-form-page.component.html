@@ -1,0 +1,128 @@
+<div class="loading-spinner" *ngIf="loading">
+  <app-progress-spinner></app-progress-spinner>
+</div>
+
+<div class="page" *ngIf="!loading">
+  <div class="header-row">
+    <span class="title-bg">开通费</span>
+  </div>
+
+  <form [formGroup]="form" id="installation-form" *ngIf="account" (ngSubmit)="onSubmit()">
+    <div class="product-block">
+      <div class="title-md">
+        <div class="label">
+          <span></span>
+        </div>
+        <div class="product-name">{{cart.items[0].productName}}</div>
+        <div class="product-description">{{cart.items[0].description}}</div>
+        <!-- <div class="product-price">${{cart.items[0].price | number : '1.2-2'}}</div> -->
+        <div class="product-price">
+            <span class="dollar">$</span>
+            <span class="price">{{cart.items[0].price | number: '1.2-2'}}</span>
+            <span class="per-month">/月</span>
+          </div>
+      </div>
+    </div>
+
+    <div class="row order-detail">
+      <div class="col-7 items-col">
+        <div *ngFor="let item of cart.items" class="text-sm row item-row">
+          <div class="col-8 product-col">{{item.productName}}</div>
+          <div class="col-2 quantity-col">x{{item.quantity}}</div>
+          <div class="col-2 price-col">${{item.price | number : '1.2-2'}}</div>
+        </div>
+      </div>
+      <div class="col-5 text-sm total-col" *ngIf="charge">
+        <div class="row">
+          <div class="col-12">
+            <div class="title-xs">
+              <span i18n="@@ProductTotal">ProductTotal</span>:</div>
+            <div class="text-xs">&nbsp;${{charge.price | number : '1.2-2'}}</div>
+          </div>
+          <div class="col-12">
+            <div class="title-xs">
+              <span i18n="@@Tax">Tax</span>:</div>
+            <div class="text-xs">&nbsp;${{charge.tax | number : '1.2-2'}}</div>
+          </div>
+          <div class="col-12 total-row">
+            <div class="title-xs">
+              <span i18n="@@Total">Total</span>:</div>
+            <div class="text-xs">&nbsp;${{ charge.total | number : '1.2-2'}}</div>
+          </div>
+
+          <div class="col-12" *ngIf="charge && account.balance!=0">
+            <div class="title-xs">
+              <span i18n="@@CurrentBalance">Current Balance</span>:</div>
+            <div class="text-xs">&nbsp;${{ account.balance | number : '1.2-2'}}</div>
+          </div>
+
+          <div class="col-12 total-row" *ngIf="charge && account.balance!=0">
+            <div class="title-xs">
+              <span i18n="@@TotalPayable">Payable</span>:</div>
+            <div class="text-xs">&nbsp;${{ account.balance >= charge.total ? 0 : charge.total - account.balance | number : '1.2-2'}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="payment-method-block">
+      <div class="row label-sm">
+        <span i18n="@@PaymentMethod">Payment Method</span>:
+      </div>
+
+      <div *ngIf="paymentMethod === 'prepaid'">用余额付款</div>
+
+      <mat-button-toggle-group *ngIf="paymentMethod !== 'prepaid'" #group="matButtonToggleGroup" [value]="paymentMethod" (change)="onSelectPaymentMethod($event)">
+        <mat-button-toggle value="cash" aria-label="Cash">
+          <div class="title">现金到付</div>
+        </mat-button-toggle>
+        <mat-button-toggle value="WECHATPAY" aria-label="Wechat">
+          <div class="title">微信支付</div>
+        </mat-button-toggle>
+        <!-- <mat-button-toggle value="ALIPAY" aria-label="Ali" *ngIf="account.username==='li'">
+          <div class="title">阿里支付</div>
+        </mat-button-toggle> -->
+        <mat-button-toggle value="card" aria-label="Card">
+          <div class="title">银行卡</div>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <div class="cash-note" *ngIf="paymentMethod === 'cash'">
+        <div>*需带现金到我司付 Rogers Set-up Fee</div>
+        <div>*公司地址: Unit8 30 Fulton Way, Richmond Hill</div>
+        <div>*客服电话: 647-402-8805</div>    
+      </div>
+
+      <div class="error" *ngIf="bError && !paymentMethod">请选择付款方式</div>
+
+      <form id="payment-form" onsubmit="return false;" *ngIf="paymentMethod==='card'">
+        <div class="form-row">
+          <label for="card-element" class="label-sm">信用卡或银行卡:</label>
+          <div id="card-element">
+            <!-- A Stripe Element will be inserted here. action="/charge" method="post" -->
+          </div>
+
+          <!-- Used to display Element errors. -->
+          <div id="card-errors" role="alert"></div>
+        </div>
+
+        <!-- <button (click)="onSubmit()">Submit Payment</button> -->
+      </form>
+    </div>
+
+    <div class="notes-block">
+      <div class="row label-sm">
+        <span i18n="@@Notes">Notes</span>:
+      </div>
+      <div class="row">
+        <textarea name="note" formControlName="note"></textarea>
+      </div>
+    </div>
+
+    <div class="op-row">
+        <button type="submit" class="btn btn-primary"  i18n="@@Submit">Submit</button>
+    </div>
+    
+  </form>
+
+</div>

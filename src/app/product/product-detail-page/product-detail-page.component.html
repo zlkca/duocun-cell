@@ -1,0 +1,25 @@
+
+<div class="page">
+  <div class="header-row">
+    <span class="title-bg" i18n="@@MobilePlanDetail">Mobile Plan Detail</span>
+  </div>
+
+  <div class="product-content" *ngIf="product">
+    <ul class="feature-list">
+      <li class="feature" *ngFor="let f of product.features">
+        {{f}}
+      </li>
+    </ul>
+    <div>
+      <span class="dollar">$</span>
+      <span class="price">{{product.price | number: '1.2-2'}}</span>
+      <span class="per-month">/月</span>
+    </div>
+
+    <div class="op-row">
+        <!-- <div class="view-detail" (click)="openDetail(p)">详情&gt;&gt;</div> -->
+        <div class="btn btn-primary" (click)="apply(product)">申请计划</div>
+      </div>
+  </div>
+
+</div>

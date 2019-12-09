@@ -167,12 +167,6 @@ export class LocationService extends EntityService {
     }
   }
 
-  getAddrString(location: ILocation) {
-    const city = location.subLocality ? location.subLocality : location.city;
-    return location.streetNumber + ' ' + location.streetName + ', ' + city + ', ' + location.province;
-    // + ', ' + location.postalCode;
-  }
-
   getAddrStringByPlace(place) {
     const terms = place.terms;
 
@@ -187,53 +181,119 @@ export class LocationService extends EntityService {
     }
   }
 
-  getRoadDistances(origin: ILatLng, destinations: any[]): Observable<any> { // IDistance[]
-    const url = super.getBaseUrl() + 'distances';
-    return this.doPost(url, {origins: [origin], destinations: destinations});
-  }
+  toProvinceAbbr(input, to = 'abbr') {
+    const provinces = [
+      ['Alberta', 'AB'],
+      ['British Columbia', 'BC'],
+      ['Manitoba', 'MB'],
+      ['New Brunswick', 'NB'],
+      ['Newfoundland', 'NF'],
+      ['Northwest Territory', 'NT'],
+      ['Nova Scotia', 'NS'],
+      ['Nunavut', 'NU'],
+      ['Ontario', 'ON'],
+      ['Prince Edward Island', 'PE'],
+      ['Quebec', 'QC'],
+      ['Saskatchewan', 'SK'],
+      ['Yukon', 'YT'],
+    ];
 
-  // ---------------------------------
-  // return --- meter
-  // get surface distance between current location and restaurant
-  getDirectDistance(center: ILatLng, location: ILatLng) {
-    const lat1 = center.lat;
-    const lng1 = center.lng;
-
-    if (location) {
-      const lat2 = location.lat;
-      const lng2 = location.lng;
-      const dLat = (lat2 - lat1) * (Math.PI / 180);
-      const dLng = (lng2 - lng1) * (Math.PI / 180);
-      const a = Math.sin(dLat / 2) * Math.sin(dLat / 2)
-        + Math.cos(lat1 * (Math.PI / 180)) * Math.cos((lat2) * (Math.PI / 180))
-        * Math.sin(dLng / 2) * Math.sin(dLng / 2);
-      const d = 6371000 * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-
-      return d;
-    } else {
-      return 0;
+    const states = [
+      ['Alabama', 'AL'],
+      ['Alaska', 'AK'],
+      ['American Samoa', 'AS'],
+      ['Arizona', 'AZ'],
+      ['Arkansas', 'AR'],
+      ['Armed Forces Americas', 'AA'],
+      ['Armed Forces Europe', 'AE'],
+      ['Armed Forces Pacific', 'AP'],
+      ['California', 'CA'],
+      ['Colorado', 'CO'],
+      ['Connecticut', 'CT'],
+      ['Delaware', 'DE'],
+      ['District Of Columbia', 'DC'],
+      ['Florida', 'FL'],
+      ['Georgia', 'GA'],
+      ['Guam', 'GU'],
+      ['Hawaii', 'HI'],
+      ['Idaho', 'ID'],
+      ['Illinois', 'IL'],
+      ['Indiana', 'IN'],
+      ['Iowa', 'IA'],
+      ['Kansas', 'KS'],
+      ['Kentucky', 'KY'],
+      ['Louisiana', 'LA'],
+      ['Maine', 'ME'],
+      ['Marshall Islands', 'MH'],
+      ['Maryland', 'MD'],
+      ['Massachusetts', 'MA'],
+      ['Michigan', 'MI'],
+      ['Minnesota', 'MN'],
+      ['Mississippi', 'MS'],
+      ['Missouri', 'MO'],
+      ['Montana', 'MT'],
+      ['Nebraska', 'NE'],
+      ['Nevada', 'NV'],
+      ['New Hampshire', 'NH'],
+      ['New Jersey', 'NJ'],
+      ['New Mexico', 'NM'],
+      ['New York', 'NY'],
+      ['North Carolina', 'NC'],
+      ['North Dakota', 'ND'],
+      ['Northern Mariana Islands', 'NP'],
+      ['Ohio', 'OH'],
+      ['Oklahoma', 'OK'],
+      ['Oregon', 'OR'],
+      ['Pennsylvania', 'PA'],
+      ['Puerto Rico', 'PR'],
+      ['Rhode Island', 'RI'],
+      ['South Carolina', 'SC'],
+      ['South Dakota', 'SD'],
+      ['Tennessee', 'TN'],
+      ['Texas', 'TX'],
+      ['US Virgin Islands', 'VI'],
+      ['Utah', 'UT'],
+      ['Vermont', 'VT'],
+      ['Virginia', 'VA'],
+      ['Washington', 'WA'],
+      ['West Virginia', 'WV'],
+      ['Wisconsin', 'WI'],
+      ['Wyoming', 'WY'],
+    ];
+    const regions = states.concat(provinces);
+    const camelcase = input.replace(/\w\S*/g, function (txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+    const uppercase = input.toUpperCase();
+    if (to === 'abbr') {
+      for (let i = 0; i < regions.length; i++) {
+        if (regions[i][0] === camelcase) {
+          return (regions[i][1]);
+        } else if (regions[i][1] === uppercase) {
+          return regions[i][1];
+        }
+      }
+    } else if (to === 'name') {
+      for (let i = 0; i < regions.length; i++) {
+        if (regions[i][1] === uppercase) {
+          return (regions[i][0]);
+        } else if (regions[i][0] === camelcase) {
+          return regions[i][0];
+        }
+      }
     }
   }
 
-  getHistoryLocations(accountId: string): Observable<IPlace[]> {
-    return this.find({ userId: accountId }).pipe(
-      map((lhs: ILocationHistory[]) => {
-        const options: IPlace[] = [];
-        for (let i = lhs.length - 1; i >= 0; i--) {
-          const lh = lhs[i];
-          const loc = lh.location;
-          const p: IPlace = {
-            type: 'history',
-            structured_formatting: {
-              main_text: loc.streetNumber + ' ' + loc.streetName,
-              secondary_text: (loc.subLocality ? loc.subLocality : loc.city) + ',' + loc.province
-            },
-            location: loc
-          };
-          options.push(p);
-        }
-        return options;
-      })
-    );
+  getAddrString(location: ILocation) {
+    if (location) {
+      const city = location.subLocality ? location.subLocality : location.city;
+      const province = this.toProvinceAbbr(location.province);
+      const streetName = this.toStreetAbbr(location.streetName);
+      return location.streetNumber + ' ' + streetName + ', ' + city + ', ' + province;
+    } else {
+      return '';
+    }
+  }
+
+  toStreetAbbr(streetName: string) {
+    return streetName.replace(' Street', ' St').replace(' Avenue', ' Ave');
   }
 }

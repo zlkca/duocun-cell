@@ -1,8 +1,7 @@
-import { throwError as observableThrowError, Observable } from 'rxjs';
+import { throwError as observableThrowError, Observable ,  empty, of } from 'rxjs';
 import { map, catchError, mergeMap, flatMap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { empty, of } from 'rxjs';
 
 
 import { environment } from '../../environments/environment';
@@ -75,9 +74,9 @@ export class AccountService extends EntityService {
   }
 
   // ------------------------------------
-  // getCurrentUser
+  // getCurrent
   // return Account object or null
-  getCurrentUser(): Observable<any> {
+  getCurrent(): Observable<any> {
     const id: any = this.authSvc.getUserId();
     // const url = id ? (this.url + '/' + id) : (this.url + '/__anonymous__');
     if (id) {
@@ -87,15 +86,15 @@ export class AccountService extends EntityService {
     }
   }
 
-  getCurrent(forceGet: boolean = false): Observable<Account> {
-    const self = this;
-    const state: any = this.ngRedux.getState();
-    if (!state || !state.account || !state.account.id || forceGet) {
-      return this.getCurrentUser();
-    } else {
-      return this.ngRedux.select<Account>('account');
-    }
-  }
+  // getCurrent(forceGet: boolean = false): Observable<Account> {
+  //   const self = this;
+  //   const state: any = this.ngRedux.getState();
+  //   if (!state || !state.account || !state.account.id || forceGet) {
+  //     return this.getCurrent();
+  //   } else {
+  //     return this.ngRedux.select<Account>('account');
+  //   }
+  // }
 
   // getWechatAccessToken(authCode: string) {
   //   const url = super.getBaseUrl() + 'wechatAccessToken?code=' + authCode;

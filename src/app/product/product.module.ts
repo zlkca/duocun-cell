@@ -9,6 +9,8 @@ import { ImageUploaderModule } from '../image-uploader/image-uploader.module';
 import { ProductRoutingModule } from './product-routing.module';
 import { CategoryService } from '../category/category.service';
 import { WarningDialogComponent } from '../shared/warning-dialog/warning-dialog.component';
+import { ProductListPageComponent } from './product-list-page/product-list-page.component';
+import { ProductDetailPageComponent } from './product-detail-page/product-detail-page.component';
 
 @NgModule({
   imports: [
@@ -23,7 +25,8 @@ import { WarningDialogComponent } from '../shared/warning-dialog/warning-dialog.
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   declarations: [
-  ],
+  ProductListPageComponent,
+  ProductDetailPageComponent],
   exports: [
 
   ],

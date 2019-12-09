@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../environments/environment';
 import { AuthService } from './account/auth.service';
-import { IEntity } from './entity.model';
 
 
 @Injectable()
@@ -91,7 +90,7 @@ export class EntityService {
     return this.http.post(url, entity, {headers: headers});
   }
 
-  save(entity: IEntity): Observable<any> {
+  save(entity: any): Observable<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
     const accessTokenId = this.cookieSvc.getAccessToken();
@@ -101,7 +100,7 @@ export class EntityService {
     return this.http.post(this.url, entity, {headers: headers});
   }
 
-  replace(entity: IEntity): Observable<any> {
+  replace(entity: any): Observable<any> {
     let headers: HttpHeaders = new HttpHeaders();
     headers = headers.append('Content-Type', 'application/json');
     const accessTokenId = this.cookieSvc.getAccessToken();

@@ -1,0 +1,91 @@
+<div class="loading-spinner" *ngIf="loading">
+  <app-progress-spinner></app-progress-spinner>
+</div>
+
+
+<div class="page" *ngIf="!loading">
+  <div class="header-row">
+    <span class="title-bg" i18n="@@ApplicationForm">Application Form</span>
+  </div>
+  <form [formGroup]="form" *ngIf="!application" (ngSubmit)="onSubmit()">
+    <div class="form-group first-name">
+      <div class="row label-sm">
+        <span i18n="@@FirstName">First Name</span>
+        <span>*</span>
+      </div>
+      <input class="name" name="first-name" type="text" formControlName="firstName" placeholder="申请人名字拼音" />
+    </div>
+    <div class="form-group last-name">
+      <div class="row label-sm">
+        <span i18n="@@LastName">Last Name</span>
+        <span>*</span>
+      </div>
+      <input class="name" name="last-name" type="text" formControlName="lastName" placeholder="申请人姓氏拼音" />
+    </div>
+
+    <div class="row form-group carrier">
+      <div class="row label-sm">
+        <span i18n="@@OriginalCarrier">Original Carrier</span>
+        <span>*</span>
+      </div>
+      <input class="carrier" name="carrier" type="text" formControlName="carrier" (change)="onCarrierChange()" />
+      <!-- <div *ngIf="carrier.errors.required">Carrier is required.</div> -->
+    </div>
+
+    <div class="row form-group address">
+      <div class="row label-sm">
+        <span i18n="@@Address">Address</span>
+        <span>*</span>
+      </div>
+      <input class="address" name="address" type="text" formControlName="address" placeholder="申请人居住地址" />
+    </div>
+
+    <div class="row form-group">
+      <div class="row label-sm">
+        <span i18n="@@PhoneNumber">Phone Number</span>
+        <span>*（此号码也用于外卖联系电话）</span>
+      </div>
+      <input class="phone" name="phone" type="tel" pattern="[0-9]*" formControlName="phone" (keyup)="onPhoneChange($event)" />
+      <div class="btn btn-primary get-code-btn" (click)="sendVerify()" i18n="@@GetVerificationCode">Get Verification Code</div>
+    </div>
+
+    <div class="row form-group">
+      <div class="row label-sm" [class.warning]="!contact.verified">
+        <span i18n="@@VerificationCode">Verification Code</span>
+        <span>*</span>
+      </div>
+      <input class="verification-code" type="number" pattern="[\d]*" name="verificationCode" formControlName="verificationCode"
+        (keyup)="onVerificationCodeInput($event)" />
+
+      <div class="verification-result">
+        <svg *ngIf="contact.verified" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+          <path fill="none" d="M0 0h24v24H0z" />
+          <path fill="#0F9D58" d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" />
+        </svg>
+      </div>
+      <div class="btn btn-secondary get-code-btn">
+        <span>{{counter}}秒</span>
+      </div>
+    </div>
+
+    <div class="row form-group">
+      <input type="checkbox" formControlName="agree" (change)="onCheckboxChange($event)" />
+      <a class="agree-text" (click)="openTermsPage()">我已阅读并同意多村外卖手机计划协议</a>
+      <!-- <div *ngIf="agree.errors.required">Agree Terms is required.</div> -->
+    </div>
+
+    <div class="op-row">
+      <button type="submit" class="btn btn-primary" i18n="@@Submit">Submit</button>
+    </div>
+  </form>
+
+  <div class="notify-block" *ngIf="application">
+    <div>您的{{application.product.name}}计划申请已提交成功，请耐心等待通知。</div>
+    <div class="notes">
+      <div class="note" *ngIf="application && application.status === 2">*请带Set-up Service Fee $35(不含税)到我司付款</div>
+      <div class="note" *ngIf="application && application.status === 3">*Rogers Set-up Service Fee 已付</div>
+      <div class="note" *ngIf="application">*公司地址: Unit8 Fulton Way, Richmond Hill</div>
+      <div class="note" *ngIf="application">*客服电话: 647-402-8805</div>
+    </div>
+  </div>
+</div>

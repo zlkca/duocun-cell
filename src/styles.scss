@@ -11,7 +11,8 @@ $desktop: "(min-width: 1200px)";
 $border-color:#b0b0b0;
 $text-color:#585858;//#212529
 $text-inverse-color:#fff;
-$primary-color:#003e7e;
+// $primary-color:#003e7e;
+$primary-color: #00549a;
 $primary-focus-color:#11759a;
 
 $title-color:#7c7c7c;
@@ -157,6 +158,10 @@ body{
 
   .btn:focus{
     outline: none;
+  }
+
+  .btn-primary{
+    background-color: $primary-color;
   }
 
   .btn-holder{

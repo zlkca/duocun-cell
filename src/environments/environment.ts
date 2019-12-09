@@ -23,7 +23,7 @@ export const environment = {
     CLIENT_ID: 'UA-113187324-2'
   },
   STRIPE: {
-    CLIENT_KEY: 'pk_test_RzVW9LLaIZANExpYhNg2x4Zu'
+    API_KEY: 'pk_test_IQkfGbooEHrkJ90xj3fMjxwM'
   },
   language: 'en'
 };

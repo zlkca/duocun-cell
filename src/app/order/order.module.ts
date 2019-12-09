@@ -13,6 +13,8 @@ import { OrderService } from './order.service';
 import { OrderRoutingModule } from './order-routing.module';
 import { AccountService } from '../account/account.service';
 import { ProductService } from '../product/product.service';
+import { InstallationFormPageComponent } from './installation-form-page/installation-form-page.component';
+import { MatSnackBarModule, MatButtonToggleModule } from '../../../node_modules/@angular/material';
 
 @NgModule({
   imports: [
@@ -20,7 +22,8 @@ import { ProductService } from '../product/product.service';
     // MatTabsModule,
     // MatExpansionModule,
     // MatDatepickerModule,
-    // MatSnackBarModule,
+    MatSnackBarModule,
+    MatButtonToggleModule,
     // MatMomentDateModule,
     // MatSlideToggleModule,
     FormsModule,
@@ -36,6 +39,7 @@ import { ProductService } from '../product/product.service';
     ProductService
   ],
   declarations: [
+    InstallationFormPageComponent
   ],
   schemas: [
     CUSTOM_ELEMENTS_SCHEMA

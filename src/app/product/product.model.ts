@@ -9,6 +9,7 @@ export interface IProduct {
   price: number;
   cost: number;
   merchantId: string;
+  merchant?: any;
   categoryId: string;
   created?: Date;
   modified?: Date;

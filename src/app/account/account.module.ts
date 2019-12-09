@@ -22,6 +22,7 @@ import { MatTableModule } from '@angular/material/table';
 // import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule} from '@angular/material/sort';
 import { OrderService } from '../order/order.service';
+import { ContactModule } from '../contact/contact.module';
 @NgModule({
     imports: [
         CommonModule,
