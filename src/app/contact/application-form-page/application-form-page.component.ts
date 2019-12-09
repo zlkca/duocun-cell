@@ -6,11 +6,12 @@ import { ContactService } from '../contact.service';
 import { IAccount } from '../../account/account.model';
 import { IContact, ICellApplication, CellApplicationStatus } from '../contact.model';
 import { FormBuilder, Validators } from '../../../../node_modules/@angular/forms';
-import { MatSnackBar } from '../../../../node_modules/@angular/material';
+import { MatSnackBar, MatDialog } from '../../../../node_modules/@angular/material';
 import { CellApplicationService } from '../cell-application.service';
 import { LocationService } from '../../location/location.service';
 import { Router, ActivatedRoute } from '../../../../node_modules/@angular/router';
 import { environment } from '../../../environments/environment';
+import { TermDialogComponent } from '../term-dialog/term-dialog.component';
 
 @Component({
   selector: 'app-application-form-page',
@@ -47,7 +48,8 @@ export class ApplicationFormPageComponent implements OnInit, OnDestroy {
     private cellApplicationSvc: CellApplicationService,
     private router: Router,
     private route: ActivatedRoute,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public dialogSvc: MatDialog
   ) {
     const self = this;
     this.loading = true;
@@ -225,7 +227,22 @@ export class ApplicationFormPageComponent implements OnInit, OnDestroy {
 
   openTermsPage() {
     // this.router.navigate(['contact/terms']);
-    const url = environment.APP_URL + '/contact/terms';
-    window.open(url);
+    // const url = environment.APP_URL + '/contact/terms';
+    // window.open(url);
+
+
+      const params = {
+        width: '100%',
+        maxWidth: 'none',
+        data: {
+          title: '服务条款', content: '', buttonTextNo: '取消', buttonTextYes: '确认收款'
+        },
+        panelClass: 'term-dialog'
+      };
+      const dialogRef = this.dialogSvc.open(TermDialogComponent, params);
+
+      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+
+      });
   }
 }

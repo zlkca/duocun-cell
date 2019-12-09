@@ -25,5 +25,5 @@ export const environment = {
   STRIPE: {
     API_KEY: 'pk_test_IQkfGbooEHrkJ90xj3fMjxwM'
   },
-  language: 'en'
+  language: 'zh'
 };

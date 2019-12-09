@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MatSnackBarModule } from '../../../node_modules/@angular/material';
+import { MatSnackBarModule, MatDialogModule } from '../../../node_modules/@angular/material';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { ContactRoutingModule } from './contact-routing.module';
@@ -14,6 +14,7 @@ import { AccountService } from '../account/account.service';
 import { PhoneFormComponent } from './phone-form/phone-form.component';
 import { ApplicationFormPageComponent } from './application-form-page/application-form-page.component';
 import { TermPageComponent } from './term-page/term-page.component';
+import { TermDialogComponent } from './term-dialog/term-dialog.component';
 
 @NgModule({
   imports: [
@@ -22,6 +23,7 @@ import { TermPageComponent } from './term-page/term-page.component';
     ReactiveFormsModule,
     MatSnackBarModule,
     MatButtonToggleModule,
+    MatDialogModule,
     ContactRoutingModule,
     SharedModule,
     LocationModule
@@ -30,7 +32,8 @@ import { TermPageComponent } from './term-page/term-page.component';
     ContactFormPageComponent,
     PhoneFormComponent,
     ApplicationFormPageComponent,
-    TermPageComponent
+    TermPageComponent,
+    TermDialogComponent
   ],
   providers: [
     LocationService,
@@ -39,6 +42,7 @@ import { TermPageComponent } from './term-page/term-page.component';
   ],
   exports: [
     PhoneFormComponent
-  ]
+  ],
+  entryComponents: [TermDialogComponent]
 })
 export class ContactModule { }

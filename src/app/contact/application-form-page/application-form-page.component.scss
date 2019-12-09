@@ -68,6 +68,7 @@ form{
   }
 }
 
+
 .notify-block{
   margin-top: 70px;
   padding: 24px;
@@ -75,4 +76,15 @@ form{
   .notes{
     margin-top: 60px;
   }
+}
+
+// material css
+.term-dialog{
+  position: absolute !important;
+  top: 3%;
+  left: 10% !important;
+  right: 10% !important;
+  width: 80% !important;
+  height: 96%;
+  max-width: none !important;
 }
