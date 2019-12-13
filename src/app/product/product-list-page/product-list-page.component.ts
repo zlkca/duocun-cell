@@ -40,4 +40,5 @@ export class ProductListPageComponent implements OnInit, OnDestroy {
   openDetail(product) {
     this.router.navigate(['product/list/' + product._id]);
   }
+
 }

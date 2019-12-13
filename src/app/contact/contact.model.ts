@@ -40,9 +40,11 @@ export class Contact implements IContact {
 }
 
 export enum CellApplicationStatus {
-  NEW = 1,
-  ORDERED, // unpaid
-  SETUP_PAID
+  APPLIED = 1,    // submit application form but didn't submit setup fee page
+  ORDERED,        // submit setup fee page but unpaid
+  SETUP_PAID,     // paid setup fee
+  STARTED,          // start to charge monthly fee
+  STOPPED,          // start to charge monthly fee
 }
 
 export interface ICellApplication {

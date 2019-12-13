@@ -41,4 +41,16 @@ export class ProductDetailPageComponent implements OnInit, OnDestroy {
     const productId = product._id;
     this.router.navigate(['contact/application-form/' + productId]);
   }
+
+  hasLinkUrl(s) {
+    return s.indexOf('www.rogers.com/web/content/add-ons') !== -1;
+  }
+
+  getLinkUrl() {
+    return 'www.rogers.com/web/content/add-ons';
+  }
+
+  // openLink() {
+  //   window.open('https://www.rogers.com/web/content/add-ons');
+  // }
 }

@@ -17,10 +17,9 @@
         <div class="product-description">{{cart.items[0].description}}</div>
         <!-- <div class="product-price">${{cart.items[0].price | number : '1.2-2'}}</div> -->
         <div class="product-price">
-            <span class="dollar">$</span>
-            <span class="price">{{cart.items[0].price | number: '1.2-2'}}</span>
-            <span class="per-month">/月</span>
-          </div>
+          <span class="dollar">$</span>
+          <span class="price">{{cart.items[0].price | number: '1.2-2'}}</span>
+        </div>
       </div>
     </div>
 
@@ -67,14 +66,14 @@
 
     <div class="payment-method-block">
       <div class="row label-sm">
-        <span i18n="@@PaymentMethod">Payment Method</span>:
+        <span i18n="@@ChoosePaymentMethod">Choose Payment Method</span>:
       </div>
 
       <div *ngIf="paymentMethod === 'prepaid'">用余额付款</div>
 
       <mat-button-toggle-group *ngIf="paymentMethod !== 'prepaid'" #group="matButtonToggleGroup" [value]="paymentMethod" (change)="onSelectPaymentMethod($event)">
         <mat-button-toggle value="cash" aria-label="Cash">
-          <div class="title">现金到付</div>
+          <div class="title">现金支付</div>
         </mat-button-toggle>
         <mat-button-toggle value="WECHATPAY" aria-label="Wechat">
           <div class="title">微信支付</div>
@@ -87,8 +86,8 @@
         </mat-button-toggle>
       </mat-button-toggle-group>
 
-      <div class="cash-note" *ngIf="paymentMethod === 'cash'">
-        <div>*需带现金到我司付 Rogers Set-up Fee</div>
+      <div class="cash-note">
+        <div *ngIf="paymentMethod === 'cash'">*需带现金到我司付 Rogers Set-up Fee</div>
         <div>*公司地址: Unit8 30 Fulton Way, Richmond Hill</div>
         <div>*客服电话: 647-402-8805</div>    
       </div>

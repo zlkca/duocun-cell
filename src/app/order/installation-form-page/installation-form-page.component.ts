@@ -52,18 +52,22 @@ export class InstallationFormPageComponent implements OnInit, OnDestroy {
 
     this.accountSvc.getCurrent().pipe(takeUntil(this.onDestroy$)).subscribe((account: IAccount) => {
       this.account = account;
-      this.productSvc.find({ _id: id }).pipe(takeUntil(this.onDestroy$)).subscribe(ps => {
-        // this.items = ps;
-        this.cart = this.addToCart(account, ps);
-        this.product = ps[0];
-        this.charge = this.calcCharge(this.cart);
+      if (account) {
+        this.productSvc.find({ _id: id }).pipe(takeUntil(this.onDestroy$)).subscribe(ps => {
+          // this.items = ps;
+          this.cart = this.addToCart(account, ps);
+          this.product = ps[0];
+          this.charge = this.calcCharge(this.cart);
 
-        if (this.account.balance >= this.charge.total) {
-          this.paymentMethod = 'prepaid';
-        }
+          if (this.account.balance >= this.charge.total) {
+            this.paymentMethod = 'prepaid';
+          }
 
+          this.loading = false;
+        });
+      } else {
         this.loading = false;
-      });
+      }
     });
   }
 
@@ -214,7 +218,7 @@ export class InstallationFormPageComponent implements OnInit, OnDestroy {
             self.snackBar.open('', '您的订单已经成功修改。', { duration: 2000 });
             self.bSubmitted = false;
             self.loading = false;
-            self.router.navigate(['contact/application-form']);
+            self.router.navigate(['contact/application-result']);
           });
         }, err => {
           self.snackBar.open('', '您的订单未更改成功，请重新更改。', { duration: 1800 });
@@ -229,12 +233,12 @@ export class InstallationFormPageComponent implements OnInit, OnDestroy {
         }
         self.orderSvc.save(order).pipe(takeUntil(self.onDestroy$)).subscribe((orderCreated: IOrder) => {
           const q = { accountId: account._id };
-          const d = { status: orderCreated.status === 'paid' ? CellApplicationStatus.SETUP_PAID : CellApplicationStatus.ORDERED };
+          const d = { status: orderCreated.status === 'paid' ? CellApplicationStatus.SETUP_PAID : CellApplicationStatus.APPLIED };
           self.cellApplicationSvc.update(q, d).pipe(takeUntil(this.onDestroy$)).subscribe((ret: any) => {
             self.snackBar.open('', '订单已成功保存', { duration: 1800 });
             self.bSubmitted = false;
             self.loading = false;
-            self.router.navigate(['contact/application-form']);
+            self.router.navigate(['contact/application-result']);
           });
         }, err => {
           self.snackBar.open('', '您的订单未登记成功，请重新下单。', { duration: 1800 });
@@ -267,7 +271,7 @@ export class InstallationFormPageComponent implements OnInit, OnDestroy {
           self.cellApplicationSvc.update(q, d).pipe(takeUntil(this.onDestroy$)).subscribe((ca: any) => {
             self.snackBar.open('', '已成功付款', { duration: 1800 });
             self.snackBar.open('', '已成功下单', { duration: 2000 });
-            self.router.navigate(['contact/application-form']);
+            self.router.navigate(['contact/application-result']);
           });
         } else {
           self.snackBar.open('', '付款未成功', { duration: 1800 });
@@ -300,7 +304,7 @@ export class InstallationFormPageComponent implements OnInit, OnDestroy {
 
         self.bSubmitted = false;
         if (r.msg === 'success') {
-          this.loading = true;
+          // this.loading = true;
           window.location.href = r.data[0].h5pay_url;
         } else {
           self.loading = false;

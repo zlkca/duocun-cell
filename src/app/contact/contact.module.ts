@@ -15,6 +15,7 @@ import { PhoneFormComponent } from './phone-form/phone-form.component';
 import { ApplicationFormPageComponent } from './application-form-page/application-form-page.component';
 import { TermPageComponent } from './term-page/term-page.component';
 import { TermDialogComponent } from './term-dialog/term-dialog.component';
+import { ApplicationResultPageComponent } from './application-result-page/application-result-page.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { TermDialogComponent } from './term-dialog/term-dialog.component';
     PhoneFormComponent,
     ApplicationFormPageComponent,
     TermPageComponent,
-    TermDialogComponent
+    TermDialogComponent,
+    ApplicationResultPageComponent
   ],
   providers: [
     LocationService,

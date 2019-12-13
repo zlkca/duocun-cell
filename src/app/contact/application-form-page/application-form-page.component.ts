@@ -32,6 +32,8 @@ export class ApplicationFormPageComponent implements OnInit, OnDestroy {
   location;
   productId;
 
+  Status = CellApplicationStatus;
+
   get firstName() { return this.form.get('firstName'); }
   get lastName() { return this.form.get('lastName'); }
   get carrier() { return this.form.get('carrier'); }
@@ -72,13 +74,32 @@ export class ApplicationFormPageComponent implements OnInit, OnDestroy {
       if (account) {
         const q = { accountId: account._id };
         self.cellApplicationSvc.find(q).pipe(takeUntil(self.onDestroy$)).subscribe((cas: ICellApplication[]) => {
-          if (cas && cas.length > 0) {
+          if (cas && cas.length > 0) { // if has existing application, load it into the form
             const ca = cas[0];
             this.application = ca;
+            ca.verificationCode = '';
+            // ca.agree = true;
             this.loading = false;
-            if (ca.status === CellApplicationStatus.NEW) {
-              this.router.navigate(['order/installation-form']);
-            }
+            this.form.patchValue(ca);
+            self.contactSvc.find(q).pipe(takeUntil(self.onDestroy$)).subscribe((contacts: IContact[]) => {
+              this.loading = false;
+              if (contacts && contacts.length > 0) {
+                self.contact = contacts[0];
+                self.contact.verificationCode = '';
+                self.contact.verified = false;
+                self.contact.address = this.locationSvc.getAddrString(self.contact.location);
+              } else {
+                self.contact = {
+                  firstName: '',
+                  lastName: '',
+                  phone: '',
+                  verificationCode: '',
+                  verified: false,
+                  address: '',
+                  carrier: ''
+                };
+              }
+            });
           } else {
             self.contactSvc.find(q).pipe(takeUntil(self.onDestroy$)).subscribe((contacts: IContact[]) => {
               this.loading = false;
@@ -195,25 +216,39 @@ export class ApplicationFormPageComponent implements OnInit, OnDestroy {
     const v = this.form.value;
 
     if (this.form.valid) {
+      const appId = this.application._id;
       const ca: any = {
         accountId: this.account._id,
         firstName: v.firstName,
         lastName: v.lastName,
+        carrier: v.carrier,
         address: v.address,
         phone: v.phone,
         productId: this.productId,
         // verificationCode: v.verificationCode,
-        status: CellApplicationStatus.NEW,
+        status: CellApplicationStatus.APPLIED,
       };
+      if (appId) {
+        const q = { _id: appId };
+        this.cellApplicationSvc.update(q, ca).pipe(takeUntil(this.onDestroy$)).subscribe(x => {
+          this.snackBar.open('', '申请已更新，请等候短信通知', { duration: 1000 });
 
-      this.cellApplicationSvc.save(ca).pipe(takeUntil(this.onDestroy$)).subscribe(x => {
-        this.snackBar.open('', '申请已经保存，请等候短信通知', { duration: 1000 });
-        this.router.navigate(['order/installation-form']);
-      });
+          if (this.application.status === CellApplicationStatus.APPLIED) {
+            this.router.navigate(['order/installation-form']);
+          } else {
+            this.router.navigate(['order/installation-result']);
+          }
+        });
+      } else {
+        this.cellApplicationSvc.save(ca).pipe(takeUntil(this.onDestroy$)).subscribe(x => {
+          this.snackBar.open('', '申请已经保存，请等候短信通知', { duration: 1000 });
+          this.router.navigate(['order/installation-form']);
+        });
+      }
     } else {
       alert('缺少输入或输入有错误，请仔细检查再提交');
       // for test
-      this.router.navigate(['order/installation-form']);
+      // this.router.navigate(['order/installation-form']);
     }
   }
 
@@ -230,19 +265,18 @@ export class ApplicationFormPageComponent implements OnInit, OnDestroy {
     // const url = environment.APP_URL + '/contact/terms';
     // window.open(url);
 
+    const params = {
+      width: '100%',
+      maxWidth: 'none',
+      data: {
+        title: '服务条款', content: '', buttonTextNo: '取消', buttonTextYes: '确认收款'
+      },
+      panelClass: 'term-dialog'
+    };
+    const dialogRef = this.dialogSvc.open(TermDialogComponent, params);
 
-      const params = {
-        width: '100%',
-        maxWidth: 'none',
-        data: {
-          title: '服务条款', content: '', buttonTextNo: '取消', buttonTextYes: '确认收款'
-        },
-        panelClass: 'term-dialog'
-      };
-      const dialogRef = this.dialogSvc.open(TermDialogComponent, params);
-
-      dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
-
-      });
+    dialogRef.afterClosed().pipe(takeUntil(this.onDestroy$)).subscribe(result => {
+      this.agree.patchValue(true);
+    });
   }
 }

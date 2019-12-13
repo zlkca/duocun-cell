@@ -7,7 +7,7 @@
   <div class="header-row">
     <span class="title-bg" i18n="@@ApplicationForm">Application Form</span>
   </div>
-  <form [formGroup]="form" *ngIf="!application" (ngSubmit)="onSubmit()">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="form-group first-name">
       <div class="row label-sm">
         <span i18n="@@FirstName">First Name</span>
@@ -49,7 +49,7 @@
       <div class="btn btn-primary get-code-btn" (click)="sendVerify()" i18n="@@GetVerificationCode">Get Verification Code</div>
     </div>
 
-    <div class="row form-group">
+    <div class="row form-group" *ngIf="contact">
       <div class="row label-sm" [class.warning]="!contact.verified">
         <span i18n="@@VerificationCode">Verification Code</span>
         <span>*</span>
@@ -79,13 +79,5 @@
     </div>
   </form>
 
-  <div class="notify-block" *ngIf="application">
-    <div>您的{{application.product.name}}计划申请已提交成功，请耐心等待通知。</div>
-    <div class="notes">
-      <div class="note" *ngIf="application && application.status === 2">*请带Set-up Service Fee $35(不含税)到我司付款</div>
-      <div class="note" *ngIf="application && application.status === 3">*Rogers Set-up Service Fee 已付</div>
-      <div class="note" *ngIf="application">*公司地址: Unit8 Fulton Way, Richmond Hill</div>
-      <div class="note" *ngIf="application">*客服电话: 647-402-8805</div>
-    </div>
-  </div>
+
 </div>

@@ -1,4 +1,3 @@
-
 <div class="page">
   <div class="header-row">
     <span class="title-bg" i18n="@@MobilePlanDetail">Mobile Plan Detail</span>
@@ -7,7 +6,10 @@
   <div class="product-content" *ngIf="product">
     <ul class="feature-list">
       <li class="feature" *ngFor="let f of product.features">
-        {{f}}
+        <span *ngIf="!hasLinkUrl(f)">{{f}}</span>
+        <span *ngIf="hasLinkUrl(f)">
+          International Long Distance Minutes, please visit <a target="_blank" rel="noopener noreferrer" href="https://www.rogers.com/web/content/add-ons">www.rogers.com/web/content/add-ons</a> for more information.
+        </span>
       </li>
     </ul>
     <div>
@@ -17,9 +19,8 @@
     </div>
 
     <div class="op-row">
-        <!-- <div class="view-detail" (click)="openDetail(p)">详情&gt;&gt;</div> -->
-        <div class="btn btn-primary" (click)="apply(product)">申请计划</div>
-      </div>
+      <div class="btn btn-primary" (click)="apply(product)">申请计划</div>
+    </div>
   </div>
 
 </div>

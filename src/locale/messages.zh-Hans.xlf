@@ -742,6 +742,14 @@
           <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="ChoosePaymentMethod" datatype="html">
+        <source>Choose Payment Method</source>
+        <target>选择付款方式</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">app/order/order-form/order-form.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="CashWhenDelivered" datatype="html">
         <source>Cash when Delivered</source>
         <target>送到后付现金</target>
