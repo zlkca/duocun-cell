@@ -233,7 +233,7 @@ export class InstallationFormPageComponent implements OnInit, OnDestroy {
         }
         self.orderSvc.save(order).pipe(takeUntil(self.onDestroy$)).subscribe((orderCreated: IOrder) => {
           const q = { accountId: account._id };
-          const d = { status: orderCreated.status === 'paid' ? CellApplicationStatus.SETUP_PAID : CellApplicationStatus.APPLIED };
+          const d = { status: orderCreated.status === 'paid' ? CellApplicationStatus.SETUP_PAID : CellApplicationStatus.ORDERED };
           self.cellApplicationSvc.update(q, d).pipe(takeUntil(this.onDestroy$)).subscribe((ret: any) => {
             self.snackBar.open('', '订单已成功保存', { duration: 1800 });
             self.bSubmitted = false;

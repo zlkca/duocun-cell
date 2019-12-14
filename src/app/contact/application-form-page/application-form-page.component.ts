@@ -216,7 +216,7 @@ export class ApplicationFormPageComponent implements OnInit, OnDestroy {
     const v = this.form.value;
 
     if (this.form.valid) {
-      const appId = this.application._id;
+      const appId = this.application ? this.application._id : null;
       const ca: any = {
         accountId: this.account._id,
         firstName: v.firstName,
@@ -236,7 +236,7 @@ export class ApplicationFormPageComponent implements OnInit, OnDestroy {
           if (this.application.status === CellApplicationStatus.APPLIED) {
             this.router.navigate(['order/installation-form']);
           } else {
-            this.router.navigate(['order/installation-result']);
+            this.router.navigate(['contact/application-result']);
           }
         });
       } else {
