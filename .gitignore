@@ -64,4 +64,4 @@ typings/
 /uploads
 client/dist
 /package-lock.json
-client/src/environments
+/src/environments
